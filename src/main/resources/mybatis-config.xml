@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!-- 1. 全局配置 -->
+    <settings>
+        <!-- 开启驼峰命名转换（如 user_name -> userName） -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+
+        <!-- 开启缓存（默认开启） -->
+        <setting name="cacheEnabled" value="true"/>
+
+        <!-- 延迟加载（默认关闭） -->
+        <setting name="lazyLoadingEnabled" value="false"/>
+        <setting name="aggressiveLazyLoading" value="true"/>
+
+        <!-- 日志实现（可选：SLF4J、LOG4J、STDOUT_LOGGING等） -->
+<!--        <setting name="logImpl" value="SLF4J"/>-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <!-- 2. 类型别名（简化Java类名引用） -->
+    <typeAliases>
+        <!-- 方式1：包扫描（自动注册包下所有类） -->
+        <package name="com.example.model"/>
+
+        <!-- 方式2：单个类别名（可选） -->
+        <!-- <typeAlias type="com.example.model.User" alias="User"/> -->
+    </typeAliases>
+
+    <!-- 3. 插件（如分页插件、性能监控等） -->
+<!--    <plugins>-->
+<!--         示例：PageHelper分页插件（需先引入依赖） -->
+<!--        <plugin interceptor="com.github.pagehelper.PageInterceptor">-->
+<!--            <property name="helperDialect" value="mysql"/>-->
+<!--            <property name="reasonable" value="true"/>-->
+<!--        </plugin>-->
+<!--    </plugins>-->
+
+    <!-- 4. 环境配置（数据库连接信息） -->
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+<!--            <dataSource type="POOLED">-->
+            <dataSource type="cn.lyky.oa.datasource.DruidDataSourceFactory">
+<!--                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>-->
+                <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://47.120.34.161:3306/imooc_oa?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=UTC"/>
+                <property name="username" value="root"/>
+                <property name="password" value="your_password"/>
+                <property name="initialSize" value="10"/>
+                <property name="maxActive" value="20"/>
+<!--                <property name="minPoolSize" value="5"/>-->
+            </dataSource>
+        </environment>
+
+        <!-- 可添加多个环境（如测试、生产） -->
+        <!--
+        <environment id="test">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://test-db:3306/mydb"/>
+                <property name="username" value="test_user"/>
+                <property name="password" value="test_password"/>
+            </dataSource>
+        </environment>
+        -->
+    </environments>
+
+    <!-- 5. 映射文件配置（SQL语句和结果映射） -->
+    <mappers>
+        <!-- 方式1：包扫描（自动注册包下所有Mapper接口和XML文件） -->
+<!--        <package name="cn.lyky."/>-->
+
+        <!-- 方式2：单个XML文件（可选） -->
+      <mapper resource="mappers/test.xml"/>
+      <mapper resource="mappers/user.xml" />
+<!--        <mapper resource="mappers/goods_detail.xml" />-->
+    </mappers>
+</configuration>
