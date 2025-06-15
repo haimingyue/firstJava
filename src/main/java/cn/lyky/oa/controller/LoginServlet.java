@@ -2,6 +2,7 @@ package cn.lyky.oa.controller;
 
 import cn.lyky.oa.entity.User;
 import cn.lyky.oa.service.UserService;
+import cn.lyky.oa.utils.ResponseUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,25 +30,16 @@ public class LoginServlet extends HttpServlet {
         // 接受用户数据
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        Map<String, Object> result = new LinkedHashMap<>();
+        ResponseUtils responseData = null;
         try {
             User user = userService.checkLogin(username, password);
-            //处理结果编码,0代表处理成功,非0代表处理失败
-            result.put("code", "0");
-            result.put("message", "success");
-            Map data = new LinkedHashMap();
-            data.put("user", user);
-            result.put("data", data);
+            responseData = new ResponseUtils().put("user", user);
         } catch (Exception e) {
             e.printStackTrace();
-            result.put("code", e.getClass().getSimpleName());
-            result.put("msg", e.getMessage());
+            responseData = new ResponseUtils().put(e.getClass().getSimpleName(), e.getMessage());
         }
         // 调用业务逻辑
         // 返回JSON结果
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String json = objectMapper.writeValueAsString(result);
-        resp.getWriter().println(json);
+        resp.getWriter().println(responseData.toJsonString());
     }
 }
