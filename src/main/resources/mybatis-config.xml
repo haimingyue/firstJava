@@ -78,6 +78,7 @@
         <!-- 方式2：单个XML文件（可选） -->
       <mapper resource="mappers/test.xml"/>
       <mapper resource="mappers/user.xml" />
+      <mapper resource="mappers/rbac.xml" />
 <!--        <mapper resource="mappers/goods_detail.xml" />-->
     </mappers>
 </configuration>

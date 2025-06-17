@@ -10,6 +10,8 @@ public class UserService  {
 
     public User checkLogin(String username, String password) {
         User user = userMapper.selectByUsername(username);
+        user.setPassword(null);
+        user.setSalt(null);
         if (user == null) {
 //            return new Exception()
             throw new LoginException("用户名不存在");
