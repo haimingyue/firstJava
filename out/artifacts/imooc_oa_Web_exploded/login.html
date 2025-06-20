@@ -75,9 +75,17 @@
                         axios.post("/api/login", params, {}).then(function (response) {
                             console.info(response);
                             const json = response.data;
-                            console.log(json);
+                            console.log('json_>', JSON.stringify(json));
                             if(json.code=="0"){
-                                window.location.href = "/index.html";
+                                console.info(response);
+                                const json = response.data;
+                                if(json.code=="0"){
+                                    sessionStorage.uid=json.data.user.userId;
+                                    sessionStorage.eid=json.data.user.employeeId;
+                                    window.location.href = "/index.html";
+                                }else{
+                                    $message.error({message:json.message, offset: 100});
+                                }
                             }else{
                                 $message.error({message:json.msg, offset: 100});
                             }
