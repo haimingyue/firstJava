@@ -1,7 +1,9 @@
 package cn.lyky.oa.controller;
 
+import cn.lyky.oa.entity.Department;
 import cn.lyky.oa.entity.Employee;
 import cn.lyky.oa.entity.Node;
+import cn.lyky.oa.service.DepartmentService;
 import cn.lyky.oa.service.EmployeeService;
 import cn.lyky.oa.service.RbacService;
 import cn.lyky.oa.utils.ResponseUtils;
@@ -21,6 +23,7 @@ import java.util.Map;
 public class UserInfoServlet extends HttpServlet {
     private RbacService rbacService = new RbacService();
     private EmployeeService employeeService = new EmployeeService();
+    private DepartmentService departmentService = new DepartmentService();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uid = request.getParameter("uid");
@@ -41,7 +44,8 @@ public class UserInfoServlet extends HttpServlet {
         }
         System.out.println("eid --->" + eid);
         Employee employee = employeeService.selectById(Long.parseLong(eid));
-        String json = new ResponseUtils().put("nodeList", treeList).put("employee", employee).toJsonString();
+        Department department = departmentService.selectById(Long.parseLong(eid));
+        String json = new ResponseUtils().put("nodeList", treeList).put("employee", employee).put("department", department).toJsonString();
 
 
         response.setContentType("application/json;charset=utf-8");
